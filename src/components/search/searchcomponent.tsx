@@ -3,42 +3,17 @@
 import { useEffect, useState } from "react";
 import utilStyles from "../styles/utils.module.css";
 import Link from 'next/link';
-import Date from "../components/DateFormatter";
-import {BlogData, BlogEdges, GetBlogs} from "../graphql/BlogFetch"
-import { BlogProps } from "@/components/Blog";
-import { Any } from "graphql-request/alpha/schema/scalars";
-// export const getStaticProps: GetStaticProps = async () => {
-//     const feed = [
-//       {
-//         id: "1",
-//         title: "Prisma is the perfect ORM for Next.js",
-//         content: "Code Hands on example",
-//         published: false,
-//         author: "Lewis Liu",
-//       },
-//     ]
-  
-//     console.log(feed)
-//     const feedBlog = await GetBlogs()
-//     console.log(feedBlog.blog_connection.edges)
-  
-//     console.log ('execute success')
-  
-//     return { 
-      
-//       props: feedBlog.blog_connection, 
-//       revalidate: 10 
-//     }
-//   }
-
+import Date from "../../libs/date-formatter";
+import {GetBlogs} from "../../modules/blog.service"
+import {IBlogData, IBlogNodes} from "../../modules/blog.types"
 
 type Props = {
-    data: BlogData;
+    data: IBlogData;
 };
 const SearchComponent: React.FC<Props> = ({data}) => {
 
-    const [posts, setPosts] = useState<BlogEdges[]>()
-    const [result, setResult] = useState<BlogEdges[]>()
+    const [posts, setPosts] = useState<IBlogNodes[]>()
+    const [result, setResult] = useState<IBlogNodes[]>()
     const [search, setSearch] = useState("")
 
     // useEffect(() => {
@@ -54,8 +29,6 @@ const SearchComponent: React.FC<Props> = ({data}) => {
     //         return posts.filter((post : any) => post.title.toLowerCase().includes(search.toLowerCase()))
     //     })
     // }, [search])
-
-    console.log(result)
 
     return (
         <>

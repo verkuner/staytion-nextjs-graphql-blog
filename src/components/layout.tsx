@@ -4,7 +4,6 @@ import styles from "./layout.module.css";
 import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
 import React, { ReactNode } from "react";
-import Header from "./Header";
 
 const name = "Staytion Blog";
 export const siteTitle = "Staytion Blog Graphql App";

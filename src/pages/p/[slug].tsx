@@ -1,69 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { GetServerSideProps } from "next"
-import ReactMarkdown from "react-markdown"
-import { BlogProps } from "../../components/Blog"
 import { useRouter } from 'next/router'
 
 import Head from "next/head";
-import Layout from "../../components/LayoutNew";
-import { BlogEdges, BlogData, GetBlogs, GetBlogsById, InsertBlogViews } from "../../graphql/BlogFetch";
-import Date from "../../components/DateFormatter";
+import Layout from "../../components/layout";
+import {GetBlogsById, InsertBlogViews } from "../../modules/blog.service";
+import { IBlogNodes, IBlogData } from "../../modules/blog.types";
+import Date from "../../libs/date-formatter";
 import utilStyles from "../../styles/utils.module.css";
 
-import { geolocation } from '@vercel/edge';
-
-
-// const Post: React.FC<BlogProps> = (props) => {
-//   let title = props.title
-//   if (!props.published) {
-//     title = `${title} (Draft)`
-//   }
-
-//   return (
-//     <Layout>
-//       <div>
-//         <h2>{title}</h2>
-//         <p>By {props?.author || "Unknown author"}</p>
-//         <ReactMarkdown children={props.content} />
-//       </div>
-//       <style jsx>{`
-//         .page {
-//           background: white;
-//           padding: 2rem;
-//         }
-
-//         .actions {
-//           margin-top: 2rem;
-//         }
-
-//         button {
-//           background: #ececec;
-//           border: 0;
-//           border-radius: 0.125rem;
-//           padding: 1rem 2rem;
-//         }
-
-//         button + button {
-//           margin-left: 1rem;
-//         }
-//       `}</style>
-//     </Layout>
-//   )
-// }
-
-
-
-
 const PostDetail = ({ post }: any) => {
-
-  const router = useRouter()
-
-  console.log(post)
-
-  // if (router.isFallback) {
-  //   return <Loader />
-  // }
-
   return (
     <Layout home={false}>
       <Head>
@@ -79,7 +24,6 @@ const PostDetail = ({ post }: any) => {
     </Layout>
   );
 }
-
 export default PostDetail;
 
 
