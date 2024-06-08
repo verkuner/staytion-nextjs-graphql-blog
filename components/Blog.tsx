@@ -18,7 +18,7 @@ const Post: React.FC<{ blog: BlogProps }> = ({ blog }) => {
     <div onClick={() => Router.push("/p/[id]", `/p/${blog.id}`)}>
       <h2>{blog.title}</h2>
       <small>By {authorName}</small>
-      <ReactMarkdown children={blog.content} />
+      <ReactMarkdown />
       <style jsx>{`
         div {
           color: inherit;

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+
 import React, { useState, useEffect } from 'react';
 import { GetStaticProps } from "next"
 import Layout, {siteTitle} from "../components/LayoutNew"
@@ -8,7 +10,6 @@ import {BlogEdges, BlogData, GetBlogs} from "../graphql/BlogFetch"
 import Head from "next/head";
 import utilStyles from "../styles/utils.module.css";
 //import { getSortedPostsData } from '../lib/posts';
-import SearchComponent from "./SearchComponent";
 
 import Router from "next/router";
 import ReactMarkdown from "react-markdown";
@@ -107,7 +108,7 @@ export default function Home() {
   return (
     <Layout home={true}>
       <Head>
-        <title>"{siteTitle}"</title>
+        <title>{siteTitle}</title>
       </Head>
       {/* <section className={utilStyles.headingMd}>
         <p align='center'>A software developer who is trying Next.js for the first time.</p>

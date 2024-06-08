@@ -36,11 +36,9 @@ type Props = {
     data: BlogData;
 };
 const SearchComponent: React.FC<Props> = ({data}) => {
-    console.log(data);
 
-
-    const [posts, setPosts] = useState<BlogEdges[]>(data.blog_connection.edges)
-    const [result, setResult] = useState<BlogEdges[]>(data.blog_connection.edges)
+    const [posts, setPosts] = useState<BlogEdges[]>()
+    const [result, setResult] = useState<BlogEdges[]>()
     const [search, setSearch] = useState("")
 
     // useEffect(() => {
