@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "./layout.module.css";
-import utilStyles from "../styles/utils.module.css";
+import utilStyles from "@/src/styles/blog/utils.module.css";
 import Link from "next/link";
 import React, { ReactNode } from "react";
 
@@ -54,7 +54,7 @@ const Layout: React.FC<Props> = (props) => {
                             />
                         </Link>
                         <h2 className={utilStyles.headingLg}>
-                            <Link href="/" className={utilStyles.colorInherit}>
+                            <Link href="/blog" className={utilStyles.colorInherit}>
                                 {name}
                             </Link>
                         </h2>

@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import React, { useState, useEffect } from 'react';
-import Layout, {siteTitle} from "../components/layout"
-import {GetBlogs} from "../modules/blog.service"
-import {IBlogData} from "../modules/blog.types"
+import Layout, {siteTitle} from "@/src/components/blog/layout"
+import {GetBlogs} from "@/src/modules/blog/blog.service"
+import {IBlogData} from "@/src/modules/blog/blog.types"
 
 import Head from "next/head";
-import utilStyles from "../styles/utils.module.css";
+import utilStyles from "@/src/styles/blog/utils.module.css";
 
 import Router from "next/router";
-import Date from "../libs/date-formatter";
+import Date from "@/src/libs/date-formatter";
 
 export default function Home() {
   const [allPostsData, setAllPostsData] = useState<IBlogData>();
@@ -39,7 +39,7 @@ export default function Home() {
 
         <ul className={utilStyles.list}>
             {allPostsData && allPostsData.blog_connection.edges.map((post : any) => (
-                <li className={utilStyles.listItem} key={post.node.slug} onClick={() => Router.push("/p/[id]", `/p/${post.node.slug}`)} >
+                <li className={utilStyles.listItem} key={post.node.slug} onClick={() => Router.push("/blog/p/[id]", `/blog/p/${post.node.slug}`)} >
                     <div><b>{post.node.title}</b></div>
                     <div>{post.node.content.substring(0,100)} ...</div>
                     <div>

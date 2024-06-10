@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router'
 
 import Head from "next/head";
-import Layout from "../../components/layout";
-import {GetBlogsById, InsertBlogViews } from "../../modules/blog.service";
-import { IBlogNodes, IBlogData } from "../../modules/blog.types";
-import Date from "../../libs/date-formatter";
-import utilStyles from "../../styles/utils.module.css";
+import Layout from "@/src/components/blog/layout";
+import {GetBlogsById, InsertBlogViews } from "@/src/modules/blog/blog.service";
+import { IBlogNodes, IBlogData } from "@/src/modules/blog/blog.types";
+import Date from "@/src/libs/date-formatter";
+import utilStyles from "@/src/styles/blog/utils.module.css";
 
 const PostDetail = ({ post }: any) => {
   return (

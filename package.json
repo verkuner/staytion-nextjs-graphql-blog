@@ -7,7 +7,11 @@
     "debug": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write --ignore-unknown .",
+    "prettier:check": "prettier --check --ignore-unknown .",
+    "seed": "node -r ./.env.local ./src/scripts/seed.js",
+    "seed-node": "node ./src/scripts/seed-node.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -20,10 +24,12 @@
     "clsx": "^2.0.0",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.11",
+    "dotenv": "^16.4.5",
     "graphql": "^16.8.1",
     "graphql-request": "^7.0.1",
     "next": "14.2.3",
     "next-auth": "^5.0.0-beta.15",
+    "pg": "^8.12.0",
     "postcss": "^8",
     "react": "^18",
     "react-dom": "^18",

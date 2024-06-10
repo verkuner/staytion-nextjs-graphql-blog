@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import utilStyles from "../styles/utils.module.css";
 import Link from 'next/link';
 import Date from "../../libs/date-formatter";
-import {GetBlogs} from "../../modules/blog.service"
-import {IBlogData, IBlogNodes} from "../../modules/blog.types"
+import {GetBlogs} from "../../modules/blog/blog.service"
+import {IBlogData, IBlogNodes} from "../../modules/blog/blog.types"
 
 type Props = {
     data: IBlogData;

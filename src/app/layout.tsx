@@ -1,12 +1,24 @@
-//import SideNav from '../ui/dashboard/sidenav';
+import '@/src/styles/home/global.css';
+import { inter } from '@/src/components/layout/fonts';
+import { Metadata } from 'next';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Staytion Dashboard',
+    default: 'Staytion Dashboard',
+  },
+  description: 'On-demand access to flexible coworking, office and lifestyle spaces worldwide.',
+  metadataBase: new URL('https://gostaytion.com/'),
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      {/* <div className="w-full flex-none md:w-64">
-        <SideNav />
-      </div> */}
-      <div className="flex-grow p-6 md:overflow-auto md:p-12">{children}</div>
-    </div>
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>{children}</body>
+    </html>
   );
 }
