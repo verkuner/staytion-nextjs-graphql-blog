@@ -1,9 +1,9 @@
 import type { NextAuthConfig } from 'next-auth';
+import GitHubProvider from "next-auth/providers/github";
 
 export const authConfig = {
   pages: {
-    signIn: '/login',
-    error: 'login'
+    signIn: '/login'
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
@@ -18,5 +18,10 @@ export const authConfig = {
       return true;
     },
   },
-  providers: [], // Add providers with an empty array for now
+  providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+  ], // Add providers with an empty array for now
 } satisfies NextAuthConfig;
