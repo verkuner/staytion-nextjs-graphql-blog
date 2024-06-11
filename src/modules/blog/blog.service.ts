@@ -1,8 +1,10 @@
 import { gql, GraphQLClient } from "graphql-request";
-import { IBlogData } from "./blog.types";
+import { IBlogData, IBlog, IBlogQueryReturn, IBlogAggregate } from "./blog.types";
 
 const _ENDPOINT_ = 'https://native-polliwog-16.hasura.app/v1beta1/relay'
 const _X_HASURA_ADMIN_SECRET_ = 'Voqz7YduanquR0DUcjomaxzJZ68dIsbblSirb1OySmB3IXbw9LAZOWBkk9RNrmE8'
+
+const _ENDPOINT_GQL_ = 'https://native-polliwog-16.hasura.app/v1/graphql'
 
 const variables = {
   mode: `cors`,
@@ -13,6 +15,14 @@ const variables = {
 }
 
 const graphQLClient = new GraphQLClient(_ENDPOINT_, {
+  mode: `cors`,
+  headers: {
+    "content-type": `application/graphql`,
+    "x-hasura-admin-secret": _X_HASURA_ADMIN_SECRET_
+  }
+})
+
+const graphQLClientGQL = new GraphQLClient(_ENDPOINT_GQL_, {
   mode: `cors`,
   headers: {
     "content-type": `application/graphql`,
@@ -47,6 +57,78 @@ export const GetBlogs = async () => {
   `
   const data = await graphQLClient.request<IBlogData>(queryBlog)
   return data
+}
+
+export const countBlogs = async () => {
+  let queryBlog = gql`
+    query CountBlog {
+      blog_aggregate {
+        aggregate {
+          count(columns: author)
+        }
+      }
+    }
+  `;
+
+  const data = await graphQLClientGQL.request<IBlogAggregate>(queryBlog)
+  return data.blog_aggregate.aggregate.count;
+}
+
+
+export const countSearchBlogs = async (search: string) => {
+  const queryBlog = gql`
+      query pageBlogQuery($search: String) {
+        blog_aggregate(where: {content: {_ilike: $search}}) {
+          aggregate {
+            count
+          }
+        }
+      }
+    `;
+  search = '%' + search + '%';
+  const data = await graphQLClientGQL.request<IBlogAggregate>(queryBlog, {'search': search})
+  return data.blog_aggregate.aggregate.count;
+}
+
+
+export const getPageBlogs = async (limit:Number, offset: Number) => {
+  const queryBlog = gql`
+    query pageBlogQuery($limit: Int, $offset: Int) {
+      blog(limit: $limit, offset: $offset) {
+        author
+        content
+        id
+        created_at
+        slug
+        title
+        updated_at
+        views
+      }
+    }
+  `;
+
+  const data = await graphQLClientGQL.request<IBlogQueryReturn>(queryBlog, {'limit':limit, 'offset':offset})
+  return data.blog;
+}
+
+export const searchBlogs = async (search:String, limit:Number, offset: Number) => {
+  search = '%' + search + '%'
+  const queryBlog = gql`
+    query pageBlogQuery($search: String, $limit: Int, $offset: Int) {
+      blog(limit: $limit, offset: $offset, where: {content: {_ilike: $search}}) {
+        author
+        content
+        id
+        created_at
+        slug
+        title
+        updated_at
+        views
+      }
+    }
+  `;
+  const data = await graphQLClientGQL.request<IBlogQueryReturn>(queryBlog, {'search': search, 'limit':limit, 'offset':offset})
+  return data.blog;
 }
 
 export const GetBlogsById = async (id: String) => {
