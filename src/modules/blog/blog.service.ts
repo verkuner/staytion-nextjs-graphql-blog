@@ -2,9 +2,11 @@ import { gql, GraphQLClient } from "graphql-request";
 import { IBlogData, IBlog, IBlogQueryReturn, IBlogAggregate } from "./blog.types";
 
 const _ENDPOINT_ = 'https://native-polliwog-16.hasura.app/v1beta1/relay'
+const _ENDPOINT_GQL_ = 'https://native-polliwog-16.hasura.app/v1/graphql'
+
 const _X_HASURA_ADMIN_SECRET_ = 'Voqz7YduanquR0DUcjomaxzJZ68dIsbblSirb1OySmB3IXbw9LAZOWBkk9RNrmE8'
 
-const _ENDPOINT_GQL_ = 'https://native-polliwog-16.hasura.app/v1/graphql'
+
 
 const variables = {
   mode: `cors`,
@@ -18,6 +20,7 @@ const graphQLClient = new GraphQLClient(_ENDPOINT_, {
   mode: `cors`,
   headers: {
     "content-type": `application/graphql`,
+    "Cache-Control": `no-cache`,
     "x-hasura-admin-secret": _X_HASURA_ADMIN_SECRET_
   }
 })
@@ -26,6 +29,7 @@ const graphQLClientGQL = new GraphQLClient(_ENDPOINT_GQL_, {
   mode: `cors`,
   headers: {
     "content-type": `application/graphql`,
+    "Cache-Control": `no-cache`,
     "x-hasura-admin-secret": _X_HASURA_ADMIN_SECRET_
   }
 })
@@ -94,7 +98,7 @@ export const countSearchBlogs = async (search: string) => {
 export const getPageBlogs = async (limit:Number, offset: Number) => {
   const queryBlog = gql`
     query pageBlogQuery($limit: Int, $offset: Int) {
-      blog(limit: $limit, offset: $offset) {
+      blog(limit: $limit, offset: $offset, order_by: {views: desc}) {
         author
         content
         id
@@ -115,7 +119,7 @@ export const searchBlogs = async (search:String, limit:Number, offset: Number) =
   search = '%' + search + '%'
   const queryBlog = gql`
     query pageBlogQuery($search: String, $limit: Int, $offset: Int) {
-      blog(limit: $limit, offset: $offset, where: {content: {_similar: $search}}) {
+      blog(limit: $limit, offset: $offset, where: {content: {_similar: $search}}, order_by: {views: desc}) {
         author
         content
         id

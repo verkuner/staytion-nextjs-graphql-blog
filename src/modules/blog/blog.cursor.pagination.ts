@@ -19,19 +19,19 @@ type PageInfo = {
     updated_at: Date
   }
   
-  type UserEdge = {
+  type BlogEdge = {
     node: Blog
     cursor: String
   }
   
   type BlogConnection= {
     totalCount: Int
-    edges: [UserEdge]
+    edges: [BlogEdge]
     pageInfo: PageInfo
   }
   
   type Query  = {
-    signedUpUsers(first: Int, after: String, last: Int, before: String): BlogConnection
+    blogCursorQuery(first: Int, after: String, last: Int, before: String): BlogConnection
   }
 
   

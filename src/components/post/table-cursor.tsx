@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import { ViewPost, UpdatePost, DeletePost  } from '@/src/components/post/buttons';
-import { getPageBlogs, countBlogs, searchBlogs } from '@/src/modules/blog/blog.service';
+import { getCursorPageBlogs} from '@/src/modules/blog/blog.cursor.service';
 
 export const revalidate = 0; // no cache
+export const fetchCache = 'force-no-store';
 export const dynamic = 'force-dynamic'
 
-export default async function BlogTable({
+export default async function BlogCursorTable({
   query,
   currentPage,
 }: {
@@ -13,7 +14,7 @@ export default async function BlogTable({
   currentPage: number;
 }) {
   const pageSize = 8;
-  const blogs = await searchBlogs(query, pageSize, (currentPage-1)*pageSize);
+  const blogs = await getCursorPageBlogs(pageSize, "", pageSize, "");
 
   return (
     <div className="mt-6 flow-root">
@@ -43,37 +44,37 @@ export default async function BlogTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-              {blogs?.map((blog) => (
+              {blogs?.edges.map((blog) => (
                 <tr
-                  key={Number(blog.slug)}
+                  key={Number(blog.node.slug)}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <p>{blog.title}</p>
+                      <p>{blog.node.title}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {blog.author}
+                    {blog.node.author}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {blog.content.substring(0,80)} ...
+                    {blog.node.content.substring(0,80)} ...
                     
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {blog.created_at.toLocaleString("en-US").substring(0,10)}
+                    {blog.node.created_at.toLocaleString("en-US").substring(0,10)}
                     
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {blog.views}
+                    {blog.node.views}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <ViewPost  id={blog.slug} />
-                      <UpdatePost id={blog.slug} />
+                      <ViewPost  id={blog.node.slug} />
+                      <UpdatePost id={blog.node.slug} />
                     </div>
                   </td>
                 </tr>

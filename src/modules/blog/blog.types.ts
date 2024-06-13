@@ -13,17 +13,8 @@ export interface IBlog {
 }
 
 export interface IBlogQueryReturn {
-  blog: [
-    {
-    id: Int
-    views: string
-    author: string
-    title: string
-    content: string
-    slug: string
-    created_at: Date
-    updated_at: Date
-    }
+  blog: [ 
+    IBlog
   ]
 }
 
@@ -37,15 +28,7 @@ export interface IBlogAggregate {
 
 export interface IBlogNodes {
     cursor: string
-    node: {
-      id: Int
-      views: string
-      author: string
-      title: string
-      content: Text
-      created_at: Date
-      updated_at: Date
-    }
+    node: IBlog
   }
   
   export interface IBlogData {
@@ -53,16 +36,7 @@ export interface IBlogNodes {
       edges: [
         {
           cursor: string
-          node: {
-            id: Int
-            views: string
-            author: string
-            title: string
-            content: string
-            created_at: Date
-            updated_at: Date
-            slug: string
-          }
+          node: IBlog
         }
       ],
       pageInfo: {

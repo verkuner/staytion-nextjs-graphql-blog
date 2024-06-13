@@ -46,7 +46,7 @@ const Layout: React.FC<Props> = (props) => {
                         <Link href="/">
                             <Image
                                 priority
-                                src="/coworker banner.png"
+                                src="/coworker-banner.png"
                                 className={utilStyles.borderCircle}
                                 height={144}
                                 width={650}
