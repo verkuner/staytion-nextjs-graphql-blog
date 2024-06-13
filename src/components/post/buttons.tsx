@@ -1,8 +1,8 @@
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, PlusIcon, TrashIcon, DocumentIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteInvoice } from '../../libs/actions';
 
-export function CreateBlog() {
+export function CreatePost() {
   return (
     <Link
       href="/dashboard/post/create"
@@ -14,7 +14,7 @@ export function CreateBlog() {
   );
 }
 
-export function UpdateBlog({ id }: { id: string }) {
+export function UpdatePost({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/post/${id}/edit`}
@@ -25,19 +25,19 @@ export function UpdateBlog({ id }: { id: string }) {
   );
 }
 
-export function ViewBlog({ id }: { id: string }) {
+export function ViewPost({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/post/${id}/view`}
+      href={`/dashboard/post/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
-      <PencilIcon className="w-5" />
+      <DocumentIcon className="w-5" />
     </Link>
   );
 }
 
 
-export function DeleteBlog({ id }: { id: string }) {
+export function DeletePost({ id }: { id: string }) {
   const deleteInvoiceWithId = deleteInvoice.bind(null, id);
   return (
     <form action={deleteInvoiceWithId}>

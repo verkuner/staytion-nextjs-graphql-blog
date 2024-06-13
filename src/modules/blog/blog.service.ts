@@ -175,3 +175,18 @@ export const InsertBlogViews = async (blogId: String, ip: String, location?: Str
   const data = await graphQLClient.request<IBlogData>(queryBlog, { slug, ip, location })
   return data
 }
+
+export const loadSinglePostWithInsertViews = async (id : string, ip : string ) => {
+
+  const data = await GetBlogsById(id);
+
+  const post = data.blog_connection.edges[0];
+
+  // //const { city } = geolocation(req);
+
+  const views = await InsertBlogViews(id, ip, ip)
+  // console.log(views)
+
+  return post;
+
+}

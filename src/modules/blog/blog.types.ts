@@ -58,7 +58,7 @@ export interface IBlogNodes {
             views: string
             author: string
             title: string
-            content: Text
+            content: string
             created_at: Date
             updated_at: Date
             slug: string

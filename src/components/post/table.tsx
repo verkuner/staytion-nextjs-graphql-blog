@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { UpdateInvoice, DeleteInvoice } from '@/src/components/invoices/buttons';
+import { ViewPost, UpdatePost, DeletePost  } from '@/src/components/post/buttons';
 import { getPageBlogs, countBlogs, searchBlogs } from '@/src/modules/blog/blog.service';
 
 
@@ -45,8 +45,8 @@ export default async function BlogTable({
                   <div>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={String(blog.slug)} />
-                    <DeleteInvoice id={String(blog.slug)} />
+                    <UpdatePost id={String(blog.slug)} />
+                    <DeletePost id={String(blog.slug)} />
                   </div>
                 </div>
               </div>
@@ -105,8 +105,8 @@ export default async function BlogTable({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={blog.slug} />
-                      <DeleteInvoice id={blog.slug} />
+                      <ViewPost  id={blog.slug} />
+                      <UpdatePost id={blog.slug} />
                     </div>
                   </td>
                 </tr>
