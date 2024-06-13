@@ -78,7 +78,7 @@ export const countBlogs = async () => {
 export const countSearchBlogs = async (search: string) => {
   const queryBlog = gql`
       query pageBlogQuery($search: String) {
-        blog_aggregate(where: {content: {_ilike: $search}}) {
+        blog_aggregate(where: {content: {_similar: $search}}) {
           aggregate {
             count
           }
@@ -115,7 +115,7 @@ export const searchBlogs = async (search:String, limit:Number, offset: Number) =
   search = '%' + search + '%'
   const queryBlog = gql`
     query pageBlogQuery($search: String, $limit: Int, $offset: Int) {
-      blog(limit: $limit, offset: $offset, where: {content: {_ilike: $search}}) {
+      blog(limit: $limit, offset: $offset, where: {content: {_similar: $search}}) {
         author
         content
         id
@@ -182,10 +182,7 @@ export const loadSinglePostWithInsertViews = async (id : string, ip : string ) =
 
   const post = data.blog_connection.edges[0];
 
-  // //const { city } = geolocation(req);
-
   const views = await InsertBlogViews(id, ip, ip)
-  // console.log(views)
 
   return post;
 

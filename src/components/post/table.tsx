@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { ViewPost, UpdatePost, DeletePost  } from '@/src/components/post/buttons';
 import { getPageBlogs, countBlogs, searchBlogs } from '@/src/modules/blog/blog.service';
 
+export const revalidate = 0; // no cache
+export const dynamic = 'force-dynamic'
 
 export default async function BlogTable({
   query,
@@ -10,7 +12,7 @@ export default async function BlogTable({
   query: string;
   currentPage: number;
 }) {
-  const pageSize = 2;
+  const pageSize = 8;
   const blogs = await searchBlogs(query, pageSize, (currentPage-1)*pageSize);
 
   return (

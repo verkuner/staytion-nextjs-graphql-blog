@@ -11,6 +11,8 @@ import Pagination from '@/src/components/post/pagination';
 import { Metadata } from 'next';
 
 export const revalidate = 0; // no cache
+export const fetchCache = 'force-no-store';
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Staytion Blogs',
@@ -25,7 +27,8 @@ export default async function Page({
 
   const count = (query==="") ? await countBlogs() : await countSearchBlogs(query);
 
-  const totalPages = Math.ceil(count /2) ;
+  const pageSize = 8;
+  const totalPages = Math.ceil(count /pageSize) ;
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -53,3 +56,4 @@ export default async function Page({
 // Update the URL with the search params.
 // Keep the URL in sync with the input field.
 // Update the table to reflect the search query.
+

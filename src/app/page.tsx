@@ -18,19 +18,25 @@ export default function Page() {
             className={`${lusitana.className} text-gray-800 placeholder:text-xl md:text-3xl md:leading-normal`}
           >
             Welcome to <br/>
-            <Link href="/blog" className="text-blue-500">
-            <strong>Check Code Task Blog</strong>
+            <Link href="/dashboard/post" className="text-blue-600">
+               Code Task
             </Link>
           </p>
 
           <Link
-            href="/dashboard"
+            href="/dashboard/post"
             className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
           >
-            <span>Open Console </span> <ArrowRightIcon className="w-5 md:w-6" />
+            <span>Staytion Blog </span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
           <p>
             Workspaces for your every need {'  '}
+            
+          </p>
+          <p>
+            <Link href="/blog" className="text-blue-300">
+              Page router blog
+            </Link>
           </p>
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
