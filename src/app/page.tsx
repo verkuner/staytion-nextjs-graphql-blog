@@ -18,8 +18,8 @@ export default function Page() {
             className={`${lusitana.className} text-gray-800 placeholder:text-xl md:text-3xl md:leading-normal`}
           >
             Welcome to <br/>
-            <Link href="/dashboard/post" className="text-blue-600">
-               Code Task
+            <Link href="/blog" className="text-blue-600">
+               Code task (cursor based)
             </Link>
           </p>
 

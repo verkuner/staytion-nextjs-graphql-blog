@@ -271,5 +271,13 @@ export function BlogTableSkeleton() {
       </div>
     </div>
   );
-
 }
+
+export function BlogCursorTableSkeleton() {
+  return (
+    <ul>
+
+    </ul>
+  )
+};
+

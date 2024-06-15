@@ -1,88 +1,47 @@
 import Image from 'next/image';
 import { ViewPost, UpdatePost, DeletePost  } from '@/src/components/post/buttons';
 import { getCursorPageBlogs} from '@/src/modules/blog/blog.cursor.service';
+import FeaturedImage from "@/src/components/blog/featuredimage";
+import Date from "@/src/libs/date-formatter";
+import Link from "next/link";
 
 export const revalidate = 0; // no cache
 export const fetchCache = 'force-no-store';
 export const dynamic = 'force-dynamic'
 
 export default async function BlogCursorTable({
-  query,
-  currentPage,
-}: {
-  query: string;
-  currentPage: number;
+  posts
 }) {
-  const pageSize = 8;
-  const blogs = await getCursorPageBlogs(pageSize, "", pageSize, "");
+  
+  //const blogs = await getCursorPageBlogs(pageSize, "", pageSize, "");
 
   return (
-    <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Title
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Author
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Content
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Date
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Views
-                </th>
-                <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Operation</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">
-              {blogs?.edges.map((blog) => (
-                <tr
-                  key={Number(blog.node.slug)}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex items-center gap-3">
-                      <p>{blog.node.title}</p>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {blog.node.author}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {blog.node.content.substring(0,80)} ...
-                    
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {blog.node.created_at.toLocaleString("en-US").substring(0,10)}
-                    
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {blog.node.views}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    
-                  </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <ViewPost  id={blog.node.slug} />
-                      <UpdatePost id={blog.node.slug} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <ul>
+    {
+      posts.edges.map((post) => (
+        <li key={post.node.slug} className="grid grid-cols-5 gap-4 mb-4">
+          <div className="col-span-2">
+            <FeaturedImage post={post} />
+          </div>
+          <div className="col-span-3">
+            <h2 className="py-4">
+              <Link href={`/blog/${post.node.slug}`} className="text-blue-400 text-2xl hover:text-blue-600">{post.node.title}</Link>
+            </h2>
+            <div className="py-4">
+              Published on <Date dateString={post.node.created_at} />
+
+              <span className="py-2 float-right">{post.node.views} views</span>
+            </div>
+            <div className="text-lg" dangerouslySetInnerHTML={{ __html: post.node.content.substring(0, 120) }}></div>
+            <div className="py-4">
+              <span>Posted by {post.node.author}</span>
+
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+
   );
 }

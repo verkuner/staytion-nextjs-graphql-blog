@@ -1,4 +1,4 @@
-import '@/src/styles/blog/globals.css';
+import '@/src/styles/blog/main.css';
 import { AppProps } from "next/app";
 
 const App = ({ Component, pageProps }: AppProps) => {

@@ -6,7 +6,7 @@ import Layout from "@/src/components/blog/layout";
 import {GetBlogsById, InsertBlogViews } from "@/src/modules/blog/blog.service";
 import { IBlogNodes, IBlogData } from "@/src/modules/blog/blog.types";
 import Date from "@/src/libs/date-formatter";
-import utilStyles from "@/src/styles/blog/utils.module.css";
+import utilStyles from "@/src/styles/bloglist/utils.module.css";
 
 const PostDetail = ({ post }: any) => {
   return (
