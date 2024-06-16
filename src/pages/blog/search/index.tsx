@@ -17,7 +17,7 @@ import { BlogCursorTableSkeleton } from '@/src/components/home/skeletons';
 import LoadMore from "@/src/components/blog/loadmore";
 import { useState } from "react";
 import { IBlogData, IBlogConnection } from "@/src/modules/blog/blog.types";
-import Layout from "./layout"
+import Layout from "../layout"
 
 import { unstable_noStore as noStore } from 'next/cache';
 
