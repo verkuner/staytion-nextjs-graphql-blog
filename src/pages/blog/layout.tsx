@@ -1,36 +1,15 @@
 import { ReactNode } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import SiteHeader from "@/src/components/blog/siteheader";
 import SiteFooter from "@/src/components/blog/sitefooter";
-
-import SearchBar from "@/src/components/layout/searchbar";
-
-import { useSearches } from "@/src/components/layout/searchcontext";
-import { redirect } from 'next/navigation'
 
 interface LayoutProps {
   children?: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps): JSX.Element {
-  const router = useRouter();
-  const { addSearch, updateSelectedSearch } = useSearches();
 
-  function handleSearch(value: string) {
-    updateSelectedSearch(value);
-    let newUrl = ''
-    if (!value) {
-      newUrl = "/blog";
-      //router.push("/blog");
-    } else {
-      addSearch(value);
-      newUrl = `/blog/?query=${encodeURIComponent(value)}`;
-      //router.push(`/blog?query=${encodeURIComponent(value)}`);
-    }
-    router.replace(newUrl);
-  }
 
   return (
     <>
@@ -40,32 +19,7 @@ export default function Layout({ children }: LayoutProps): JSX.Element {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div className="h-[20vh] min-h-[3rem] relative">
-        <div className="absolute bg-slate-900 inset-0 z-0 opacity-40"></div>
-
-        <div className="container lg:max-w-4xl mx-auto">
-          <SiteHeader className="header-blog-home z-10 relative" />
-        </div>
-
-        <h2 className="text-4xl text-center text-slate-200 relative z-10 py-2">BLOG</h2>
-
-        <div className="container mx-auto lg:max-w-4xl flex items-center justify-between gap-4 md:mt-4">
-          <SearchBar onSearch={handleSearch} />
-
-          <button
-            className="bg-blue-300 text-slate-900 px-4 py-2 hover:bg-blue-500"
-            onClick={() => {
-              let newUrl = addSearch ? "/blog?query=" + addSearch : "/blog";
-              router.push(newUrl);
-            }}
-          >
-            Search
-          </button>
-
-        </div>
-      </div>
-
+      <SiteHeader className="header-blog-home z-10 relative" />
 
       <div>{children}</div>
 

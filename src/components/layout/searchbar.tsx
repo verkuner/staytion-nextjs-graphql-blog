@@ -16,6 +16,8 @@ export default function Search({ onSearch }: SearchProps): JSX.Element {
   const [searchValue, setSearchValue] = useState<string>();
   const debouncedSearch = useRef(debounce(onSearch, 5000)).current;
   const { selectedSearch } = useSearches();
+  
+    const inputRef: any = useRef();
 
   useEffect(() => {
     if (typeof router.query.query === "string") {
