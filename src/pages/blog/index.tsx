@@ -22,7 +22,7 @@ import Layout from "./layout"
 import { unstable_noStore as noStore } from 'next/cache';
 import SearchBar from "@/src/components/layout/searchbar";
 
-import { useSearches } from "@/src/components/layout/searchcontext";
+import { SearchProvider, useSearches } from "@/src/components/layout/searchcontext";
 import { useRouter } from "next/router";
 
 export const revalidate = 0; // no cache
@@ -32,37 +32,26 @@ export const dynamic = 'force-dynamic'
 
 export async function getServerSideProps(context: any) {
 
-  context.res.setHeader('Cache-Control', 'no-store');
-
   const { page, query } = context.query;
-  const count = (query) ? await countSearchBlogs(query) : await countBlogs();
 
   const allPosts = await getCursorPageBlogs(query, 5);
 
   return {
     props: {
       allPosts: allPosts,
-      total: count,
       query: query ? query : "",
     },
   }
 }
 
-
-export default function BlogHome({ allPosts, total, query }) {
+export default function BlogHome({ allPosts, query }) {
   const [posts, setPosts] = useState(allPosts);
-  const [searchCount, setSearchCount] = useState(total);
+  const [searchCount, setSearchCount] = useState(allPosts.totalCount);
   const [searchQuery, setSearchQuery] = useState(query);
-
-  const moreBlog = allPosts.pageInfo.hasNextPage; 
-
-
-  // const count = (query) ? await countSearchBlogs(query) : await countBlogs();
-  // setSearchCount(count)
-
+  const [moreBlog, setMoreBlog] = useState<boolean>(allPosts.pageInfo.hasNextPage);
 
   const router = useRouter();
-  const { addSearch, updateSelectedSearch } = useSearches();
+  const { addSearch, updateSelectedSearch, selectedSearch } = useSearches();
 
   async function handleSearch(value: string) {
     updateSelectedSearch(value);
@@ -76,21 +65,18 @@ export default function BlogHome({ allPosts, total, query }) {
 
     setSearchQuery(value);
 
-    const searchTotal = (query) ? await countSearchBlogs(value) : await countBlogs();
-    setSearchCount(searchTotal);
-
     const searchPosts = await getCursorPageBlogs(value, 5);
     setPosts(searchPosts);
+    setSearchCount(searchPosts.totalCount);
+    setMoreBlog(searchPosts.pageInfo.hasNextPage);
+    
 
-
-    router.push(newUrl);
+    router.replace(newUrl);
     
   }
 
   const handleSearchButtonOnclick = async (event) => {
-
-    //router.push(newUrl);
-
+    handleSearch(selectedSearch);
   }
 
   return (
@@ -119,7 +105,7 @@ export default function BlogHome({ allPosts, total, query }) {
           </div>
         </div>
         <div className="container text-center mx-auto text-2xl lg:max-w-5xl post-list mt-4">
-          Total (<b>{total}</b>)  blogs
+          Total (<b>{searchCount}</b>)  blogs
         </div>
         <section className="container mx-auto lg:max-w-5xl post-list mt-4">
 

@@ -1,6 +1,6 @@
 import { getCursorPageBlogs } from "@/src/modules/blog/blog.cursor.service";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const revalidate = 0; // no cache
 export const fetchCache = 'force-no-store';
@@ -9,12 +9,23 @@ export const dynamic = 'force-dynamic'
 
 export default function LoadMore({ posts, setPosts, search, moreBlog }) {
 
-  let buttonTextValue = posts.pageInfo.hasNextPage ? 'Load next 5 blogs' : 'No more blogs';
-  //let buttonDisabledDefault = posts.pageInfo.hasNextPage ? false : true;
-  let buttonDisabledDefault = !moreBlog;
+  // let buttonTextValue = moreBlog ? 'Load next 5 blogs' : 'No more blogs';
+  // let buttonDisabledDefault = moreBlog ? false : true;
 
-  const [buttonText, setButtonText] = useState(buttonTextValue);
-  const [buttonDisabled, setButtonDisabled] = useState(buttonDisabledDefault);
+
+  const [buttonText, setButtonText] = useState<string>();
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>();
+
+  useEffect(() => {
+    if (moreBlog) {
+      setButtonText('Load next 5 blogs');
+      setButtonDisabled(false);
+    }
+    else {
+      setButtonText('No more blogs');
+      setButtonDisabled(true);
+    }
+  });
 
   const handleOnclick = async (event) => {
 

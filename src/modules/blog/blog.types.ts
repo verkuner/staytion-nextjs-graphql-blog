@@ -44,7 +44,7 @@ export interface IBlogConnection {
     endCursor: string,
     startCursor: string
   }
-
+  totalCount: number
 }
 
 export interface IBlogData {

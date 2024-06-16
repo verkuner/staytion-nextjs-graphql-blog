@@ -1,5 +1,6 @@
 import { gql, GraphQLClient } from "graphql-request";
 import { IBlogData } from "./blog.types"
+import {countSearchBlogs, countBlogs} from "./blog.service"
 
 const _ENDPOINT_RELAY_ = 'https://native-polliwog-16.hasura.app/v1beta1/relay'
 const _ENDPOINT_GQL_ = 'https://native-polliwog-16.hasura.app/v1/graphql'
@@ -24,8 +25,8 @@ export const getCursorPageBlogs = async (search: string = "", first: number = 5,
   }
 
   if (search) {
-    search = '%' + search + '%';
-    condition = condition + `, where: {content: {_similar: "${search}"}}`;
+    const fullSearch = '%' + search + '%';
+    condition = condition + `, where: {content: {_similar: "${fullSearch}"}}`;
   }
 
   condition = condition + `, order_by: {views: desc}`;
@@ -57,6 +58,11 @@ export const getCursorPageBlogs = async (search: string = "", first: number = 5,
   `;
 
   const data = await graphQLClientRelay.request<IBlogData>(queryBlog)
+
+  const searchTotal = (queryBlog) ? await countSearchBlogs(search) : await countBlogs();
+
+  data.blog_connection.totalCount = searchTotal;
+
   return data.blog_connection;
 }
 
