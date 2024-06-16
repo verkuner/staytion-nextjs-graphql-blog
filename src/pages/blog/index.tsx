@@ -50,12 +50,11 @@ export async function getServerSideProps(context: any) {
 
 
 export default function BlogHome({ allPosts, total, query }) {
-
-  noStore();
-
   const [posts, setPosts] = useState(allPosts);
   const [searchCount, setSearchCount] = useState(total);
   const [searchQuery, setSearchQuery] = useState(query);
+
+  const moreBlog = allPosts.pageInfo.hasNextPage; 
 
 
   // const count = (query) ? await countSearchBlogs(query) : await countBlogs();
@@ -120,7 +119,7 @@ export default function BlogHome({ allPosts, total, query }) {
           </div>
         </div>
         <div className="container text-center mx-auto text-2xl lg:max-w-5xl post-list mt-4">
-          Total (<b>{searchCount}</b>)  blogs
+          Total (<b>{total}</b>)  blogs
         </div>
         <section className="container mx-auto lg:max-w-5xl post-list mt-4">
 
@@ -156,7 +155,7 @@ export default function BlogHome({ allPosts, total, query }) {
           </Suspense> */}
 
           <div className="py-4 text-center">
-            <LoadMore posts={posts} setPosts={setPosts} search={searchQuery} />
+            <LoadMore posts={posts} setPosts={setPosts} search={searchQuery} moreBlog={moreBlog} />
           </div>
 
         </section>

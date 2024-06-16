@@ -3,15 +3,21 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { debounce } from "lodash";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { unstable_noStore as noStore } from 'next/cache';
 
 
 import { useSearches } from "./searchcontext";
+
+export const revalidate = 0; // no cache
+export const fetchCache = 'force-no-store';
+export const dynamic = 'force-dynamic'
 
 export interface SearchProps {
   onSearch: (value: string) => void;
 }
 
 export default function Search({ onSearch }: SearchProps): JSX.Element {
+
   const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>();
   const debouncedSearch = useRef(debounce(onSearch, 5000)).current;
