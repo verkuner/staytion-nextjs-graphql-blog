@@ -79,18 +79,19 @@ export const countBlogs = async () => {
 }
 
 
+// as _similar operation is case sensitive, using _ilike instead in this function.
 export const countSearchBlogs = async (search: string) => {
   const queryBlog = gql`
       query pageBlogQuery($search: String) {
-        blog_aggregate(where: {content: {_similar: $search}}) {
+        blog_aggregate(where: {_or: [ {content: {_ilike: $search}}, {title: {_ilike: $search}}] }) {
           aggregate {
             count
           }
         }
       }
     `;
-  search = '%' + search + '%';
-  const data = await graphQLClientGQL.request<IBlogAggregate>(queryBlog, {'search': search})
+  const similarSearch = '%' + search.trim() + '%';
+  const data = await graphQLClientGQL.request<IBlogAggregate>(queryBlog, {'search': similarSearch})
   return data.blog_aggregate.aggregate.count;
 }
 

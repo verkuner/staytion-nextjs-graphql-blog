@@ -16,6 +16,7 @@ const graphQLClientRelay = new GraphQLClient(_ENDPOINT_RELAY_, {
   }
 })
 
+// as _similar operation is case sensitive, using _ilike instead in this function.
 export const getCursorPageBlogs = async (search: string = "", first: number = 5, after: string = "") => {
 
   let condition = `first: ${first}`;
@@ -25,8 +26,14 @@ export const getCursorPageBlogs = async (search: string = "", first: number = 5,
   }
 
   if (search) {
-    const fullSearch = '%' + search + '%';
-    condition = condition + `, where: {content: {_similar: "${fullSearch}"}}`;
+    const fullSearch = '%' + search.trim() + '%';
+    condition = condition + `, where: {
+      _or: [
+        {content: {_ilike: "${fullSearch}"} },
+        {title: {_ilike: "${fullSearch}"} }
+      ]
+    }`;
+
   }
 
   condition = condition + `, order_by: {views: desc}`;
