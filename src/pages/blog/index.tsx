@@ -1,25 +1,15 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import SiteHeader from "@/src/components/blog/siteheader";
-import SiteFooter from "@/src/components/blog/sitefooter";
 import FeaturedImage from "@/src/components/blog/featuredimage";
 import { getCursorPageBlogs } from "@/src/modules/blog/blog.cursor.service";
 
-import { countBlogs, countSearchBlogs } from '@/src/modules/blog/blog.service';
-import Search from '@/src/components/layout/searchbar';
-import { Suspense, useEffect } from 'react';
-import BlogCursorTable from "@/src/components/post/table-cursor"
-
 import Date from "@/src/libs/date-formatter";
-import { BlogCursorTableSkeleton } from '@/src/components/home/skeletons';
-
 import LoadMore from "@/src/components/blog/loadmore";
 import { useState, useRef } from "react";
 import { IBlogData, IBlogConnection } from "@/src/modules/blog/blog.types";
 import Layout from "./layout"
 
-import { unstable_noStore as noStore } from 'next/cache';
 import SearchBar from "@/src/components/layout/searchbar";
 
 import { SearchProvider, useSearches } from "@/src/components/layout/searchcontext";
@@ -63,16 +53,15 @@ export default function BlogHome({ allPosts, query }) {
       newUrl = `/blog/?query=${encodeURIComponent(value)}`;
     }
 
-    setSearchQuery(value);
-
     const searchPosts = await getCursorPageBlogs(value, 5);
+
+    setSearchQuery(value);
     setPosts(searchPosts);
     setSearchCount(searchPosts.totalCount);
     setMoreBlog(searchPosts.pageInfo.hasNextPage);
     
-
     router.replace(newUrl);
-    
+
   }
 
   const handleSearchButtonOnclick = async (event) => {

@@ -17,7 +17,7 @@ export default function LoadMore({ posts, setPosts, search, moreBlog }) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>();
 
   useEffect(() => {
-    if (moreBlog) {
+    if (posts.pageInfo.hasNextPage) {
       setButtonText('Load next 5 blogs');
       setButtonDisabled(false);
     }
@@ -27,10 +27,14 @@ export default function LoadMore({ posts, setPosts, search, moreBlog }) {
     }
   });
 
+  console.log("load more query = " + search)
+
   const handleOnclick = async (event) => {
 
     setButtonText('Loading...');
     setButtonDisabled(true);
+
+    console.log("load more on click query = " + search)
 
     const morePosts = await getCursorPageBlogs(search, 5, posts.pageInfo.endCursor);
 

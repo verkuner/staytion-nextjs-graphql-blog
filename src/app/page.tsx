@@ -19,7 +19,7 @@ export default function Page() {
           >
             Welcome to <br/>
             <Link href="/blog" className="text-blue-600">
-               Code task (cursor based)
+               Code task blog pagination (cursor based)
             </Link>
           </p>
 
